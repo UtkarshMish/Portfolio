@@ -27,7 +27,7 @@ portfolio = Endpoint()
 @app.route("/contact", methods=["POST"])
 def contact_info():
 	if request.method == "POST" and request.get_json() is not None:
-		user_info = dict(request.get_json())
+		user_info = dict(json.loads(request.get_data()))
 		if user_info and user_info["name"]:
 			result = portfolio.contact.insert_one(user_info)
 			if result is not None:
