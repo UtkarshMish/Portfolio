@@ -30,12 +30,16 @@ portfolio = Endpoint()
 @cross_origin()
 def contact_info():
 	if request.method == "POST" and request.get_json() is not None:
-		user_info = dict(json.loads(request.get_data()))
-		print(user_info)
-		if user_info and user_info["name"]:
-			result = portfolio.contact.insert_one(user_info)
-			if result is not None:
-				return Response(status=200, response=json.dumps(portfolio.TRUE))
+		try:
+			user_info = dict(json.loads(request.get_data()))
+			user_info["phone"] = int(user_info["phone"])
+			user_info["message"] = str(user_info["message"]).strip()
+			if user_info and user_info["name"] and user_info["phone"] and user_info["email"] and user_info["message"]:
+				result = portfolio.contact.insert_one(user_info)
+				if result is not None:
+					return Response(status=200, response=json.dumps(portfolio.TRUE))
+		except Exception as e:
+			return Response(status=405, response=json.dumps(e))
 	return Response(status=406, response=json.dumps(portfolio.FALSE))
 
 
