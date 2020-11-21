@@ -1,7 +1,8 @@
-from flask import Flask, request
+from flask import Flask, request, Response
 from dotenv import load_dotenv, find_dotenv
 import pymongo
 import os
+import json
 
 app = Flask(__name__)
 load_dotenv(find_dotenv())
@@ -30,8 +31,8 @@ def contact_info():
 		if user_info and user_info["name"]:
 			result = portfolio.contact.insert_one(user_info)
 			if result is not None:
-				return portfolio.TRUE
-	return portfolio.FALSE
+				return Response(status=200, response=json.dumps(portfolio.TRUE))
+	return Response(status=406, response=json.dumps(portfolio.FALSE))
 
 
 if __name__ == '__main__':
