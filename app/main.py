@@ -3,6 +3,8 @@ from dotenv import load_dotenv, find_dotenv
 import pymongo
 import os
 import json
+from flask_cors import CORS
+
 
 app = Flask(__name__)
 load_dotenv(find_dotenv())
@@ -28,6 +30,7 @@ portfolio = Endpoint()
 def contact_info():
 	if request.method == "POST" and request.get_json() is not None:
 		user_info = dict(json.loads(request.get_data()))
+		print(user_info)
 		if user_info and user_info["name"]:
 			result = portfolio.contact.insert_one(user_info)
 			if result is not None:
@@ -36,4 +39,5 @@ def contact_info():
 
 
 if __name__ == '__main__':
+	CORS(app, resources={r"/*": {"origins": "*"}})
 	app.run()
