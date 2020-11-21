@@ -39,5 +39,5 @@ def contact_info():
 
 
 if __name__ == '__main__':
-	CORS(app, resources={r"/*": {"origins": "*"}})
+	CORS(app)
 	app.run()
