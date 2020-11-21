@@ -3,7 +3,7 @@ from dotenv import load_dotenv, find_dotenv
 import pymongo
 import os
 import json
-from flask_cors import CORS
+from flask_cors import CORS,cross_origin
 
 
 app = Flask(__name__)
@@ -27,6 +27,7 @@ portfolio = Endpoint()
 
 
 @app.route("/contact", methods=["POST"])
+@cross_origin()
 def contact_info():
 	if request.method == "POST" and request.get_json() is not None:
 		user_info = dict(json.loads(request.get_data()))
